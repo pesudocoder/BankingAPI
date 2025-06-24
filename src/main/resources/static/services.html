@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services - Banking App</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-dark sidebar collapse">
+                <div class="position-sticky pt-3">
+                    <div class="text-center mb-4">
+                        <h5 class="text-white">SecureBank</h5>
+                    </div>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="dashboard.html">
+                                <i class="fas fa-home me-2"></i>
+                                Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="transactions.html">
+                                <i class="fas fa-exchange-alt me-2"></i>
+                                Transactions
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="services.html">
+                                <i class="fas fa-concierge-bell me-2"></i>
+                                Services
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="settings.html">
+                                <i class="fas fa-cog me-2"></i>
+                                Settings
+                            </a>
+                        </li>
+                        <li class="nav-item mt-4">
+                            <a class="nav-link text-warning" href="#" id="logout-button">
+                                <i class="fas fa-sign-out-alt me-2"></i>
+                                Logout
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            
+            <!-- Main Content -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Banking Services</h1>
+                    <div class="dropdown">
+                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="accountDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            Select Account
+                        </button>
+                        <ul class="dropdown-menu" id="account-dropdown-menu" aria-labelledby="accountDropdown">
+                            <li><a class="dropdown-item" href="#"><div class="spinner-border spinner-border-sm text-primary" role="status"><span class="visually-hidden">Loading...</span></div> Loading accounts...</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="row mb-4">
+                    <div class="col-lg-3 mb-4">
+                        <div class="list-group" id="services-tabs">
+                            <a class="list-group-item list-group-item-action active" data-bs-toggle="list" href="#bill-payment">Bill Payment</a>
+                            <a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#mobile-recharge">Mobile Recharge</a>
+                            <a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#card-management">Card Management</a>
+                            <a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#new-card">Apply for New Card</a>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-9">
+                        <div class="tab-content">
+                            <!-- Bill Payment -->
+                            <div class="tab-pane fade show active" id="bill-payment">
+                                <div class="card shadow-sm">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Pay Your Bills</h5>
+                                        <hr>
+                                        <div class="alert alert-danger" id="bill-payment-error" style="display: none;"></div>
+                                        <div class="alert alert-success" id="bill-payment-success" style="display: none;"></div>
+                                        
+                                        <form id="bill-payment-form">
+                                            <div class="mb-3">
+                                                <label for="bill-type" class="form-label">Bill Type</label>
+                                                <select class="form-select" id="bill-type" required>
+                                                    <option value="" selected disabled>Select Bill Type</option>
+                                                    <option value="ELECTRICITY">Electricity</option>
+                                                    <option value="WATER">Water</option>
+                                                    <option value="GAS">Gas</option>
+                                                    <option value="INTERNET">Internet</option>
+                                                    <option value="CABLE_TV">Cable TV</option>
+                                                    <option value="LANDLINE">Landline</option>
+                                                    <option value="INSURANCE">Insurance</option>
+                                                    <option value="OTHER">Other</option>
+                                                </select>
+                                            </div>
+                                            
+                                            <div class="mb-3">
+                                                <label for="biller-name" class="form-label">Biller Name</label>
+                                                <input type="text" class="form-control" id="biller-name" required>
+                                            </div>
+                                            
+                                            <div class="mb-3">
+                                                <label for="consumer-number" class="form-label">Consumer Number / Account ID</label>
+                                                <input type="text" class="form-control" id="consumer-number" required>
+                                            </div>
+                                            
+                                            <div class="mb-3">
+                                                <label for="bill-amount" class="form-label">Amount (₹)</label>
+                                                <input type="number" class="form-control" id="bill-amount" min="1" step="0.01" required>
+                                            </div>
+                                            
+                                            <div class="mb-3">
+                                                <label for="bill-date" class="form-label">Bill Date</label>
+                                                <input type="date" class="form-control" id="bill-date">
+                                            </div>
+                                            
+                                            <div class="mb-3">
+                                                <label for="bill-note" class="form-label">Note (Optional)</label>
+                                                <textarea class="form-control" id="bill-note" rows="2"></textarea>
+                                            </div>
+                                            
+                                            <button type="submit" class="btn btn-primary">Pay Bill</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Mobile Recharge -->
+                            <div class="tab-pane fade" id="mobile-recharge">
+                                <div class="card shadow-sm">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Mobile Recharge</h5>
+                                        <hr>
+                                        <div class="alert alert-danger" id="recharge-error" style="display: none;"></div>
+                                        <div class="alert alert-success" id="recharge-success" style="display: none;"></div>
+                                        
+                                        <form id="mobile-recharge-form">
+                                            <div class="mb-3">
+                                                <label for="mobile-number" class="form-label">Mobile Number</label>
+                                                <input type="tel" class="form-control" id="mobile-number" required pattern="[0-9]{10}">
+                                                <div class="form-text">Enter 10-digit mobile number without country code</div>
+                                            </div>
+                                            
+                                            <div class="mb-3">
+                                                <label for="operator" class="form-label">Operator</label>
+                                                <select class="form-select" id="operator" required>
+                                                    <option value="" selected disabled>Select Mobile Operator</option>
+                                                    <option value="AIRTEL">Airtel</option>
+                                                    <option value="JIO">Jio</option>
+                                                    <option value="VI">Vi</option>
+                                                    <option value="BSNL">BSNL</option>
+                                                    <option value="OTHER">Other</option>
+                                                </select>
+                                            </div>
+                                            
+                                            <div class="mb-3">
+                                                <label for="recharge-type" class="form-label">Recharge Type</label>
+                                                <select class="form-select" id="recharge-type" required>
+                                                    <option value="PREPAID" selected>Prepaid</option>
+                                                    <option value="POSTPAID">Postpaid</option>
+                                                </select>
+                                            </div>
+                                            
+                                            <div class="mb-3">
+                                                <label for="recharge-amount" class="form-label">Amount (₹)</label>
+                                                <input type="number" class="form-control" id="recharge-amount" min="10" step="1" required>
+                                            </div>
+                                            
+                                            <button type="submit" class="btn btn-primary">Recharge</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Card Management -->
+                            <div class="tab-pane fade" id="card-management">
+                                <div class="card shadow-sm">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Manage Your Cards</h5>
+                                        <hr>
+                                        <div class="alert alert-danger" id="card-management-error" style="display: none;"></div>
+                                        <div class="alert alert-success" id="card-management-success" style="display: none;"></div>
+                                        
+                                        <div id="user-cards">
+                                            <div class="text-center py-4">
+                                                <div class="spinner-border text-primary" role="status">
+                                                    <span class="visually-hidden">Loading...</span>
+                                                </div>
+                                                <p class="mt-2">Loading your cards...</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Apply for New Card -->
+                            <div class="tab-pane fade" id="new-card">
+                                <div class="card shadow-sm">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Apply for a New Card</h5>
+                                        <hr>
+                                        <div class="alert alert-danger" id="new-card-error" style="display: none;"></div>
+                                        <div class="alert alert-success" id="new-card-success" style="display: none;"></div>
+                                        
+                                        <form id="new-card-form">
+                                            <div class="mb-3">
+                                                <label for="card-type" class="form-label">Card Type</label>
+                                                <select class="form-select" id="card-type" required>
+                                                    <option value="" selected disabled>Select Card Type</option>
+                                                    <option value="DEBIT">Debit Card</option>
+                                                    <option value="CREDIT">Credit Card</option>
+                                                </select>
+                                            </div>
+                                            
+                                            <div class="mb-3">
+                                                <label for="cardholder-name" class="form-label">Cardholder Name</label>
+                                                <input type="text" class="form-control" id="cardholder-name" required>
+                                                <div class="form-text">Name as it will appear on the card</div>
+                                            </div>
+                                            
+                                            <button type="submit" class="btn btn-primary">Apply for Card</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <!-- Card Details Modal -->
+    <div class="modal fade" id="cardDetailsModal" tabindex="-1" aria-labelledby="cardDetailsModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="cardDetailsModalLabel">Card Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="card-details-loading" class="text-center py-4">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p class="mt-2">Loading card details...</p>
+                    </div>
+                    
+                    <div id="card-details-content" style="display: none;">
+                        <div class="card-preview mb-4">
+                            <div class="card-front">
+                                <div class="card-type" id="modal-card-type">DEBIT</div>
+                                <div class="card-number" id="modal-card-number">xxxx xxxx xxxx xxxx</div>
+                                <div class="card-info">
+                                    <div>
+                                        <div class="card-label">Cardholder Name</div>
+                                        <div class="card-holder-name" id="modal-cardholder-name">Your Name</div>
+                                    </div>
+                                    <div>
+                                        <div class="card-label">Expires</div>
+                                        <div class="card-expiry" id="modal-card-expiry">MM/YY</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h6 class="card-subtitle mb-2 text-muted">Card Status</h6>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span id="modal-card-status">Active</span>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="card-status-toggle">
+                                        <label class="form-check-label" for="card-status-toggle">Block/Unblock</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h6 class="card-subtitle mb-2 text-muted">Card Details</h6>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <span>Card Type</span>
+                                        <span id="modal-detail-card-type">Debit Card</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <span>Card Number</span>
+                                        <span id="modal-detail-card-number">xxxx xxxx xxxx xxxx</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <span>Cardholder Name</span>
+                                        <span id="modal-detail-cardholder-name">Your Name</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <span>Expiry Date</span>
+                                        <span id="modal-detail-expiry">MM/YY</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center credit-limit-item">
+                                        <span>Credit Limit</span>
+                                        <span id="modal-detail-limit">₹0.00</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-danger" id="delete-card-btn">
+                                <i class="fas fa-trash-alt me-2"></i> Delete Card
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/services.js"></script>
+</body>
+</html>

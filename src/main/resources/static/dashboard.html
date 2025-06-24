@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Banking App</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-dark sidebar collapse">
+                <div class="position-sticky pt-3">
+                    <div class="text-center mb-4">
+                        <h5 class="text-white">SecureBank</h5>
+                    </div>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="dashboard.html">
+                                <i class="fas fa-home me-2"></i>
+                                Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="transactions.html">
+                                <i class="fas fa-exchange-alt me-2"></i>
+                                Transactions
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="services.html">
+                                <i class="fas fa-concierge-bell me-2"></i>
+                                Services
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="settings.html">
+                                <i class="fas fa-cog me-2"></i>
+                                Settings
+                            </a>
+                        </li>
+                        <li class="nav-item mt-4">
+                            <a class="nav-link text-warning" href="#" id="logout-button">
+                                <i class="fas fa-sign-out-alt me-2"></i>
+                                Logout
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            
+            <!-- Main Content -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Dashboard</h1>
+                    <div class="dropdown">
+                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="accountDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            Select Account
+                        </button>
+                        <ul class="dropdown-menu" id="account-dropdown-menu" aria-labelledby="accountDropdown">
+                            <li><a class="dropdown-item" href="#"><div class="spinner-border spinner-border-sm text-primary" role="status"><span class="visually-hidden">Loading...</span></div> Loading accounts...</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="row mt-4">
+                    <div class="col-md-6 mb-4">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title">Account Summary</h5>
+                                <div id="account-summary">
+                                    <div class="text-center py-4">
+                                        <div class="spinner-border text-primary" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                        <p class="mt-2">Loading account details...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6 mb-4">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title">Quick Actions</h5>
+                                <div class="d-grid gap-2">
+                                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addMoneyModal">
+                                        <i class="fas fa-plus-circle me-2"></i> Add Money
+                                    </button>
+                                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#sendMoneyModal">
+                                        <i class="fas fa-paper-plane me-2"></i> Send Money
+                                    </button>
+                                    <button class="btn btn-info text-white" data-bs-toggle="modal" data-bs-target="#requestMoneyModal">
+                                        <i class="fas fa-hand-holding-usd me-2"></i> Request Money
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-8 mb-4">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h5 class="card-title">Recent Transactions</h5>
+                                    <a href="transactions.html" class="btn btn-sm btn-outline-primary">View All</a>
+                                </div>
+                                <div id="recent-transactions">
+                                    <div class="text-center py-4">
+                                        <div class="spinner-border text-primary" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                        <p class="mt-2">Loading recent transactions...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4 mb-4">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title">Transaction Summary</h5>
+                                <canvas id="transaction-chart"></canvas>
+                                <div id="chart-loading" class="text-center py-4">
+                                    <div class="spinner-border text-primary" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                    <p class="mt-2">Loading chart data...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <!-- Add Money Modal -->
+    <div class="modal fade" id="addMoneyModal" tabindex="-1" aria-labelledby="addMoneyModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addMoneyModalLabel">Add Money</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-danger" id="add-money-error" style="display: none;"></div>
+                    <div class="alert alert-success" id="add-money-success" style="display: none;"></div>
+                    
+                    <form id="add-money-form">
+                        <div class="mb-3">
+                            <label class="form-label">Select Method</label>
+                            <div class="btn-group w-100" role="group">
+                                <input type="radio" class="btn-check" name="add-money-method" id="upi-add" autocomplete="off" checked value="UPI">
+                                <label class="btn btn-outline-primary" for="upi-add">UPI</label>
+                                
+                                <input type="radio" class="btn-check" name="add-money-method" id="debit-add" autocomplete="off" value="DEBIT_CARD">
+                                <label class="btn btn-outline-primary" for="debit-add">Debit Card</label>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="add-money-amount" class="form-label">Amount (₹)</label>
+                            <input type="number" class="form-control" id="add-money-amount" min="1" step="0.01" required>
+                        </div>
+                        
+                        <!-- UPI Fields -->
+                        <div id="upi-add-fields">
+                            <div class="mb-3">
+                                <label for="upi-id-add" class="form-label">UPI ID</label>
+                                <input type="text" class="form-control" id="upi-id-add" placeholder="yourname@bank">
+                            </div>
+                            <div class="mb-3">
+                                <label for="upi-pin-add" class="form-label">UPI PIN</label>
+                                <input type="password" class="form-control" id="upi-pin-add">
+                            </div>
+                        </div>
+                        
+                        <!-- Debit Card Fields -->
+                        <div id="debit-add-fields" style="display: none;">
+                            <div class="mb-3">
+                                <label for="card-number-add" class="form-label">Card Number</label>
+                                <input type="text" class="form-control" id="card-number-add" placeholder="XXXX XXXX XXXX XXXX">
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="expiry-date-add" class="form-label">Expiry Date</label>
+                                    <input type="text" class="form-control" id="expiry-date-add" placeholder="MM/YY">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="cvv-add" class="form-label">CVV</label>
+                                    <input type="password" class="form-control" id="cvv-add" placeholder="XXX">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">Add Money</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Send Money Modal -->
+    <div class="modal fade" id="sendMoneyModal" tabindex="-1" aria-labelledby="sendMoneyModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="sendMoneyModalLabel">Send Money</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-danger" id="send-money-error" style="display: none;"></div>
+                    <div class="alert alert-success" id="send-money-success" style="display: none;"></div>
+                    
+                    <form id="send-money-form">
+                        <div class="mb-3">
+                            <label class="form-label">Select Method</label>
+                            <div class="btn-group w-100" role="group">
+                                <input type="radio" class="btn-check" name="send-money-method" id="upi-send" autocomplete="off" checked value="UPI">
+                                <label class="btn btn-outline-primary" for="upi-send">UPI</label>
+                                
+                                <input type="radio" class="btn-check" name="send-money-method" id="card-send" autocomplete="off" value="CARD">
+                                <label class="btn btn-outline-primary" for="card-send">Card</label>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="send-money-amount" class="form-label">Amount (₹)</label>
+                            <input type="number" class="form-control" id="send-money-amount" min="1" step="0.01" required>
+                        </div>
+                        
+                        <!-- UPI Fields -->
+                        <div id="upi-send-fields">
+                            <div class="mb-3">
+                                <label for="to-upi-id" class="form-label">Recipient UPI ID</label>
+                                <input type="text" class="form-control" id="to-upi-id" placeholder="recipient@bank">
+                            </div>
+                            <div class="mb-3">
+                                <label for="upi-pin-send" class="form-label">UPI PIN</label>
+                                <input type="password" class="form-control" id="upi-pin-send">
+                            </div>
+                        </div>
+                        
+                        <!-- Card Fields -->
+                        <div id="card-send-fields" style="display: none;">
+                            <div class="mb-3">
+                                <label for="recipient-card-number" class="form-label">Recipient Card Number</label>
+                                <input type="text" class="form-control" id="recipient-card-number" placeholder="XXXX XXXX XXXX XXXX">
+                            </div>
+                            <div class="mb-3">
+                                <label for="card-type" class="form-label">Card Type</label>
+                                <select class="form-select" id="card-type">
+                                    <option value="CREDIT_CARD">Credit Card</option>
+                                    <option value="DEBIT_CARD">Debit Card</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="send-money-note" class="form-label">Note (Optional)</label>
+                            <textarea class="form-control" id="send-money-note" rows="2"></textarea>
+                        </div>
+                        
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-success">Send Money</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Request Money Modal -->
+    <div class="modal fade" id="requestMoneyModal" tabindex="-1" aria-labelledby="requestMoneyModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="requestMoneyModalLabel">Request Money</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-danger" id="request-money-error" style="display: none;"></div>
+                    <div class="alert alert-success" id="request-money-success" style="display: none;"></div>
+                    
+                    <form id="request-money-form">
+                        <div class="mb-3">
+                            <label for="request-money-amount" class="form-label">Amount (₹)</label>
+                            <input type="number" class="form-control" id="request-money-amount" min="1" step="0.01" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="request-money-note" class="form-label">Note (Optional)</label>
+                            <textarea class="form-control" id="request-money-note" rows="2"></textarea>
+                        </div>
+                        
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle me-2"></i> Money will be requested from your parent account.
+                        </div>
+                        
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-info text-white">Request Money</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

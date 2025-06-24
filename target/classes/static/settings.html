@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - Banking App</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-dark sidebar collapse">
+                <div class="position-sticky pt-3">
+                    <div class="text-center mb-4">
+                        <h5 class="text-white">SecureBank</h5>
+                    </div>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="dashboard.html">
+                                <i class="fas fa-home me-2"></i>
+                                Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="transactions.html">
+                                <i class="fas fa-exchange-alt me-2"></i>
+                                Transactions
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="services.html">
+                                <i class="fas fa-concierge-bell me-2"></i>
+                                Services
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="settings.html">
+                                <i class="fas fa-cog me-2"></i>
+                                Settings
+                            </a>
+                        </li>
+                        <li class="nav-item mt-4">
+                            <a class="nav-link text-warning" href="#" id="logout-button">
+                                <i class="fas fa-sign-out-alt me-2"></i>
+                                Logout
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            
+            <!-- Main Content -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Settings</h1>
+                    <div class="dropdown">
+                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="accountDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            Select Account
+                        </button>
+                        <ul class="dropdown-menu" id="account-dropdown-menu" aria-labelledby="accountDropdown">
+                            <li><a class="dropdown-item" href="#"><div class="spinner-border spinner-border-sm text-primary" role="status"><span class="visually-hidden">Loading...</span></div> Loading accounts...</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-lg-3 mb-4">
+                        <div class="list-group" id="settings-tabs">
+                            <a class="list-group-item list-group-item-action active" data-bs-toggle="list" href="#profile-settings">Profile Settings</a>
+                            <a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#security-settings">Security</a>
+                            <a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#daily-limit-settings">Daily Limits</a>
+                            <a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#notification-settings">Notifications</a>
+                            <a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#linked-accounts">Linked Accounts</a>
+                            <a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#link-account">Link Account</a>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-9">
+                        <div class="tab-content">
+                            <!-- Profile Settings -->
+                            <div class="tab-pane fade show active" id="profile-settings">
+                                <div class="card shadow-sm">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Profile Settings</h5>
+                                        <hr>
+                                        <div class="alert alert-success" id="profile-success" style="display: none;"></div>
+                                        <div class="alert alert-danger" id="profile-error" style="display: none;"></div>
+                                        
+                                        <div class="row mb-4">
+                                            <div class="col-md-3">
+                                                <div class="text-center">
+                                                    <div class="avatar-circle mb-3">
+                                                        <i class="fas fa-user fa-3x"></i>
+                                                    </div>
+                                                    <button class="btn btn-sm btn-outline-primary">Change Photo</button>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-9">
+                                                <form id="profile-form">
+                                                    <div class="mb-3">
+                                                        <label for="fullName" class="form-label">Full Name</label>
+                                                        <input type="text" class="form-control" id="fullName" placeholder="Your Full Name">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="email" class="form-label">Email</label>
+                                                        <input type="email" class="form-control" id="email" placeholder="your.email@example.com">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="phone" class="form-label">Phone Number</label>
+                                                        <input type="tel" class="form-control" id="phone" placeholder="Your Phone Number">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="address" class="form-label">Address</label>
+                                                        <textarea class="form-control" id="address" rows="3" placeholder="Your Address"></textarea>
+                                                    </div>
+                                                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Security Settings -->
+                            <div class="tab-pane fade" id="security-settings">
+                                <div class="card shadow-sm">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Security Settings</h5>
+                                        <hr>
+                                        <div class="alert alert-success" id="password-success" style="display: none;"></div>
+                                        <div class="alert alert-danger" id="password-error" style="display: none;"></div>
+                                        
+                                        <h6 class="mb-3">Change Password</h6>
+                                        <form id="change-password-form">
+                                            <div class="mb-3">
+                                                <label for="current-password" class="form-label">Current Password</label>
+                                                <input type="password" class="form-control" id="current-password" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="new-password" class="form-label">New Password</label>
+                                                <input type="password" class="form-control" id="new-password" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="confirm-password" class="form-label">Confirm New Password</label>
+                                                <input type="password" class="form-control" id="confirm-password" required>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Change Password</button>
+                                        </form>
+                                        
+                                        <hr class="my-4">
+                                        
+                                        <h6 class="mb-3">Two-Factor Authentication</h6>
+                                        <p>Enhance your account security by enabling two-factor authentication.</p>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="enable-2fa">
+                                            <label class="form-check-label" for="enable-2fa">Enable Two-Factor Authentication</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Daily Limit Settings -->
+                            <div class="tab-pane fade" id="daily-limit-settings">
+                                <div class="card shadow-sm">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Daily Transaction Limits</h5>
+                                        <hr>
+                                        <div class="alert alert-success" id="limit-success" style="display: none;"></div>
+                                        <div class="alert alert-danger" id="limit-error" style="display: none;"></div>
+                                        
+                                        <p>Configure your daily transaction limits to control spending and enhance security.</p>
+                                        
+                                        <div class="mb-4">
+                                            <h6>Current Daily Limit</h6>
+                                            <div class="card bg-light">
+                                                <div class="card-body">
+                                                    <ul class="list-unstyled mb-0">
+                                                        <li class="d-flex justify-content-between align-items-center">
+                                                            <span>Daily Limit:</span>
+                                                            <span id="daily-limit-display">Loading...</span>
+                                                        </li>
+                                                        <li class="d-flex justify-content-between align-items-center mt-2">
+                                                            <span>Today's Spent:</span>
+                                                            <span id="today-spent-display">Loading...</span>
+                                                        </li>
+                                                        <li class="d-flex justify-content-between align-items-center mt-2">
+                                                            <span>Remaining:</span>
+                                                            <span id="remaining-limit-display">Loading...</span>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <form id="daily-limit-form">
+                                            <div class="mb-3">
+                                                <label for="daily-limit" class="form-label">Set New Daily Limit (₹)</label>
+                                                <input type="number" class="form-control" id="daily-limit" min="0" step="1000" placeholder="Enter amount">
+                                                <div class="form-text">Enter 0 for unlimited.</div>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Update Limit</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Notification Settings -->
+                            <div class="tab-pane fade" id="notification-settings">
+                                <div class="card shadow-sm">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Notification Settings</h5>
+                                        <hr>
+                                        <div class="alert alert-success" id="notification-success" style="display: none;"></div>
+                                        
+                                        <p>Configure how and when you receive notifications about your account activity.</p>
+                                        
+                                        <form id="notification-settings-form">
+                                            <h6 class="mb-3">Transaction Notifications</h6>
+                                            <div class="mb-3">
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox" id="notify-all-transactions" checked>
+                                                    <label class="form-check-label" for="notify-all-transactions">All Transactions</label>
+                                                </div>
+                                                <div class="form-text ms-4">Receive notifications for all transactions on your account.</div>
+                                            </div>
+                                            
+                                            <div class="mb-3">
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox" id="notify-large-transactions" checked>
+                                                    <label class="form-check-label" for="notify-large-transactions">Large Transactions</label>
+                                                </div>
+                                                <div class="input-group input-group-sm ms-4 mt-2" style="max-width: 200px;">
+                                                    <span class="input-group-text">₹</span>
+                                                    <input type="number" class="form-control" id="large-transaction-amount" value="5000" min="0">
+                                                    <span class="input-group-text">and above</span>
+                                                </div>
+                                            </div>
+                                            
+                                            <h6 class="mb-3 mt-4">Security Notifications</h6>
+                                            <div class="mb-3">
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox" id="notify-login" checked>
+                                                    <label class="form-check-label" for="notify-login">Account Login</label>
+                                                </div>
+                                                <div class="form-text ms-4">Receive notifications when someone logs into your account.</div>
+                                            </div>
+                                            
+                                            <div class="mb-3">
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox" id="notify-password-change" checked>
+                                                    <label class="form-check-label" for="notify-password-change">Password Changes</label>
+                                                </div>
+                                                <div class="form-text ms-4">Receive notifications when your password is changed.</div>
+                                            </div>
+                                            
+                                            <h6 class="mb-3 mt-4">Notification Methods</h6>
+                                            <div class="mb-3">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="notify-email" checked>
+                                                    <label class="form-check-label" for="notify-email">Email</label>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="notify-sms" checked>
+                                                    <label class="form-check-label" for="notify-sms">SMS</label>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="notify-push" checked>
+                                                    <label class="form-check-label" for="notify-push">Push Notifications</label>
+                                                </div>
+                                            </div>
+                                            
+                                            <button type="submit" class="btn btn-primary">Save Notification Settings</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Linked Accounts -->
+                            <div class="tab-pane fade" id="linked-accounts">
+                                <div class="card shadow-sm">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Linked Accounts</h5>
+                                        <hr>
+                                        
+                                        <ul class="nav nav-tabs" id="linkedAccountTabs" role="tablist">
+                                            <li class="nav-item" role="presentation">
+                                                <button class="nav-link active" id="parent-accounts-tab" data-bs-toggle="tab" data-bs-target="#parent-accounts" type="button" role="tab" aria-controls="parent-accounts" aria-selected="true">Parent Account</button>
+                                            </li>
+                                            <li class="nav-item" role="presentation">
+                                                <button class="nav-link" id="child-accounts-tab" data-bs-toggle="tab" data-bs-target="#child-accounts" type="button" role="tab" aria-controls="child-accounts" aria-selected="false">Child Accounts</button>
+                                            </li>
+                                            <li class="nav-item" role="presentation">
+                                                <button class="nav-link" id="money-requests-tab" data-bs-toggle="tab" data-bs-target="#money-requests" type="button" role="tab" aria-controls="money-requests" aria-selected="false">Money Requests</button>
+                                            </li>
+                                        </ul>
+                                        <div class="tab-content mt-3" id="linkedAccountTabsContent">
+                                            <div class="tab-pane fade show active" id="parent-accounts" role="tabpanel" aria-labelledby="parent-accounts-tab">
+                                                <div id="parent-accounts-container" class="list-group">
+                                                    <div class="text-center py-4">
+                                                        <div class="spinner-border text-primary" role="status">
+                                                            <span class="visually-hidden">Loading...</span>
+                                                        </div>
+                                                        <p class="mt-2">Loading parent account...</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane fade" id="child-accounts" role="tabpanel" aria-labelledby="child-accounts-tab">
+                                                <div id="child-accounts-container" class="list-group">
+                                                    <div class="text-center py-4">
+                                                        <div class="spinner-border text-primary" role="status">
+                                                            <span class="visually-hidden">Loading...</span>
+                                                        </div>
+                                                        <p class="mt-2">Loading child accounts...</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane fade" id="money-requests" role="tabpanel" aria-labelledby="money-requests-tab">
+                                                <div id="money-requests-container" class="list-group">
+                                                    <div class="text-center py-4">
+                                                        <div class="spinner-border text-primary" role="status">
+                                                            <span class="visually-hidden">Loading...</span>
+                                                        </div>
+                                                        <p class="mt-2">Loading money requests...</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Link Account -->
+                            <div class="tab-pane fade" id="link-account">
+                                <div class="card shadow-sm">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Link Accounts</h5>
+                                        <hr>
+                                        <div class="alert alert-danger" id="link-alert" style="display: none;"></div>
+                                        <div class="alert alert-success" id="link-success" style="display: none;"></div>
+                                        
+                                        <p>Link accounts to establish parent-child relationships for parental controls and money requests.</p>
+                                        
+                                        <form id="link-account-form">
+                                            <div class="mb-3">
+                                                <label for="parent-account-number" class="form-label">Parent Account Number</label>
+                                                <input type="text" class="form-control" id="parent-account-number" placeholder="Enter 12-digit account number" required pattern="[0-9]{12}">
+                                                <div class="form-text">Enter the 12-digit account number of the parent account.</div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="child-account-number" class="form-label">Child Account Number</label>
+                                                <input type="text" class="form-control" id="child-account-number" placeholder="Enter 12-digit account number" required pattern="[0-9]{12}">
+                                                <div class="form-text">Enter the 12-digit account number of the child account.</div>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Link Accounts</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/settings.js"></script>
+</body>
+</html>

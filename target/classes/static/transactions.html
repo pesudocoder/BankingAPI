@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transactions - Banking App</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-dark sidebar collapse">
+                <div class="position-sticky pt-3">
+                    <div class="text-center mb-4">
+                        <h5 class="text-white">SecureBank</h5>
+                    </div>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="dashboard.html">
+                                <i class="fas fa-home me-2"></i>
+                                Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="transactions.html">
+                                <i class="fas fa-exchange-alt me-2"></i>
+                                Transactions
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="services.html">
+                                <i class="fas fa-concierge-bell me-2"></i>
+                                Services
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="settings.html">
+                                <i class="fas fa-cog me-2"></i>
+                                Settings
+                            </a>
+                        </li>
+                        <li class="nav-item mt-4">
+                            <a class="nav-link text-warning" href="#" id="logout-button">
+                                <i class="fas fa-sign-out-alt me-2"></i>
+                                Logout
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            
+            <!-- Main Content -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Transactions</h1>
+                    <div class="dropdown">
+                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="accountDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            Select Account
+                        </button>
+                        <ul class="dropdown-menu" id="account-dropdown-menu" aria-labelledby="accountDropdown">
+                            <li><a class="dropdown-item" href="#"><div class="spinner-border spinner-border-sm text-primary" role="status"><span class="visually-hidden">Loading...</span></div> Loading accounts...</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="row mb-4">
+                    <div class="col-md-8">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h5 class="card-title">Transaction History</h5>
+                                    <div class="btn-group" role="group">
+                                        <input type="radio" class="btn-check" name="transaction-filter" id="filter-all" autocomplete="off" checked value="all">
+                                        <label class="btn btn-outline-primary" for="filter-all">All</label>
+                                        
+                                        <input type="radio" class="btn-check" name="transaction-filter" id="filter-credit" autocomplete="off" value="credit">
+                                        <label class="btn btn-outline-primary" for="filter-credit">Credit</label>
+                                        
+                                        <input type="radio" class="btn-check" name="transaction-filter" id="filter-debit" autocomplete="off" value="debit">
+                                        <label class="btn btn-outline-primary" for="filter-debit">Debit</label>
+                                        
+                                        <input type="radio" class="btn-check" name="transaction-filter" id="filter-pending" autocomplete="off" value="pending">
+                                        <label class="btn btn-outline-primary" for="filter-pending">Pending</label>
+                                    </div>
+                                </div>
+                                
+                                <div id="transaction-list">
+                                    <div class="text-center py-4">
+                                        <div class="spinner-border text-primary" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                        <p class="mt-2">Loading transactions...</p>
+                                    </div>
+                                </div>
+                                
+                                <div id="pagination" class="d-flex justify-content-center mt-3">
+                                    <!-- Pagination will be added here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="card shadow-sm mb-4">
+                            <div class="card-body">
+                                <h5 class="card-title">Monthly Summary</h5>
+                                <div id="monthly-summary">
+                                    <div class="text-center py-4">
+                                        <div class="spinner-border text-primary" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                        <p class="mt-2">Loading summary...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title">Transaction Types</h5>
+                                <canvas id="transaction-type-chart"></canvas>
+                                <div id="type-chart-loading" class="text-center py-4">
+                                    <div class="spinner-border text-primary" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                    <p class="mt-2">Loading chart data...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <!-- Transaction Detail Modal -->
+    <div class="modal fade" id="transactionDetailModal" tabindex="-1" aria-labelledby="transactionDetailModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="transactionDetailModalLabel">Transaction Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="transaction-detail-loading" class="text-center py-4">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p class="mt-2">Loading transaction details...</p>
+                    </div>
+                    <div id="transaction-detail-content" style="display: none;">
+                        <div class="text-center mb-3">
+                            <div id="transaction-icon-large" class="rounded-circle bg-light p-3 d-inline-block mb-2">
+                                <i class="fas fa-exchange-alt fa-2x"></i>
+                            </div>
+                            <h4 id="transaction-type-title">Transaction</h4>
+                            <h2 id="transaction-amount" class="text-primary">₹0.00</h2>
+                            <span id="transaction-status-badge" class="badge bg-success">Completed</span>
+                        </div>
+                        
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <div class="row mb-2">
+                                    <div class="col-5 text-muted">Date & Time</div>
+                                    <div class="col-7 text-end" id="transaction-datetime">-</div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-5 text-muted">Reference ID</div>
+                                    <div class="col-7 text-end" id="transaction-reference">-</div>
+                                </div>
+                                <div class="row mb-2" id="from-user-row">
+                                    <div class="col-5 text-muted">From</div>
+                                    <div class="col-7 text-end" id="transaction-from">-</div>
+                                </div>
+                                <div class="row mb-2" id="to-user-row">
+                                    <div class="col-5 text-muted">To</div>
+                                    <div class="col-7 text-end" id="transaction-to">-</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-5 text-muted">Description</div>
+                                    <div class="col-7 text-end" id="transaction-description">-</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="transaction-actions" class="d-none">
+                            <div class="alert alert-warning">
+                                <i class="fas fa-info-circle me-2"></i> This money request is pending your approval.
+                            </div>
+                            
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-success" id="approve-request-btn">
+                                    <i class="fas fa-check me-2"></i> Approve Request
+                                </button>
+                                <button class="btn btn-danger" id="reject-request-btn">
+                                    <i class="fas fa-times me-2"></i> Reject Request
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/transactions.js"></script>
+</body>
+</html>
